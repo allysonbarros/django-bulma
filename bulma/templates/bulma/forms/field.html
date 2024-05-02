@@ -96,11 +96,11 @@
     </div>
 
   {% elif field|is_file %}
-
+  <div class="file has-name">
     <label class="label {{ classes.label }}
         {% if field.field.required %}{{ form.required_css_class }}{% endif %}">{{ field.label }}</label>
+    
     <div class="control {{ classes.value }}">
-
       <label class="file-label">
         {{ field|addclass:'file-input' }}
         <span class="file-cta">
@@ -108,8 +108,9 @@
             <i class="fas fa-upload"></i>
           </span>
           <span class="file-label">
-            Choose a file…
+            Escolha um arquivo…
           </span>
+          <span class="file-name"> Nenhum arquivo selecionado </span>
         </span>
       </label>
 
@@ -123,6 +124,16 @@
         {% endif %}
     </div>
 
+    <script>
+      const fileInput = document.querySelector("#{{ field.auto_id }}");
+      fileInput.onchange = () => {
+        if (fileInput.files.length > 0) {
+          const fileName = document.querySelector("#{{ field.auto_id }} .file-name");
+          fileName.textContent = fileInput.files[0].name;
+        }
+      };
+    </script>
+  </div>
   {% else %}
 
     {% if field.auto_id %}
